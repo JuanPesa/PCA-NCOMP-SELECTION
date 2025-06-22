@@ -11,35 +11,35 @@ Este repositorio contiene un script de Python desarrollado en Google Colab que e
 
 El script trabaja con los siguientes datasets, los cuales son cargados directamente utilizando `sklearn.datasets.fetch_openml` y `sklearn.datasets.load_digits`:
 
-1.  [cite_start]**MNIST**: Dataset de dígitos escritos a mano (70,000 muestras, 784 características). 
-2.  [cite_start]**Digits**: Dataset más pequeño de dígitos (1,797 muestras, 64 características). 
-3.  [cite_start]**Fashion MNIST**: Dataset de imágenes de artículos de moda (70,000 muestras, 784 características). 
+1.  **MNIST**: Dataset de dígitos escritos a mano (70,000 muestras, 784 características). 
+2.  **Digits**: Dataset más pequeño de dígitos (1,797 muestras, 64 características). 
+3.  **Fashion MNIST**: Dataset de imágenes de artículos de moda (70,000 muestras, 784 características). 
 
 ## Preprocesamiento y PCA
 
 Antes de aplicar PCA y entrenar los modelos, los datos pasan por los siguientes pasos:
 
-1.  [cite_start]**Carga de datos**: Los datasets se cargan y las etiquetas se convierten a `int32` para asegurar la compatibilidad con los modelos de Keras. 
-2.  [cite_start]**Escalado**: Los datos de las características (`X`) son escalados utilizando `StandardScaler` para que tengan media 0 y varianza 1, un paso crucial para PCA. 
+1.  **Carga de datos**: Los datasets se cargan y las etiquetas se convierten a `int32` para asegurar la compatibilidad con los modelos de Keras. 
+2.  **Escalado**: Los datos de las características (`X`) son escalados utilizando `StandardScaler` para que tengan media 0 y varianza 1, un paso crucial para PCA. 
 3.  **Aplicación de PCA**: Se aplica PCA para reducir la dimensionalidad de los datos. Se evalúan diferentes criterios para seleccionar el número óptimo de componentes principales:
-    * [cite_start]**Criterio de Kaiser**: Retiene componentes con valores propios (eigenvalues) mayores que la media de todos los valores propios. 
-    * [cite_start]**Varianza Explicada**: Retiene el número de componentes que explican un porcentaje de varianza (por defecto, 95%). 
-    * [cite_start]**Análisis Paralelo de Horn**: Compara los valores propios reales con los de datos aleatorios para determinar los componentes significativos. 
-    * [cite_start]Además, se incluyen pruebas con el **número total de características** y la **mitad de las características originales** para fines comparativos. 
+    * **Criterio de Kaiser**: Retiene componentes con valores propios (eigenvalues) mayores que la media de todos los valores propios. 
+    * **Varianza Explicada**: Retiene el número de componentes que explican un porcentaje de varianza (por defecto, 95%). 
+    * **Análisis Paralelo de Horn**: Compara los valores propios reales con los de datos aleatorios para determinar los componentes significativos. 
+    * Además, se incluyen pruebas con el **número total de características** y la **mitad de las características originales** para fines comparativos. 
 
 ## Red Neuronal Densa
 
 Una red neuronal densa simple de Keras se utiliza para la clasificación de imágenes después de la reducción de dimensionalidad con PCA.
 
 -   **Arquitectura del Modelo**:
-    * [cite_start]Capa de entrada con `n_components` características. 
-    * [cite_start]Una capa `Dense` de 256 neuronas con activación `relu`. 
-    * [cite_start]Una capa `Dropout` con tasa de 0.3. 
-    * [cite_start]Una capa `Dense` de 128 neuronas con activación `relu`. 
-    * [cite_start]Una segunda capa `Dropout` con tasa de 0.3. 
-    * [cite_start]Una capa `Dense` de salida con `num_classes` neuronas y activación `softmax`. 
--   [cite_start]**Compilación**: Optimizador `adam`, función de pérdida `sparse_categorical_crossentropy` y métrica `accuracy`. 
--   [cite_start]**Entrenamiento**: Se entrena el modelo por hasta 100 épocas con un tamaño de lote de 64, utilizando un `validation_split` del 15% y `EarlyStopping` (patience=5) para prevenir el sobreajuste. 
+    * Capa de entrada con `n_components` características. 
+    * Una capa `Dense` de 256 neuronas con activación `relu`. 
+    * Una capa `Dropout` con tasa de 0.3. 
+    * Una capa `Dense` de 128 neuronas con activación `relu`. 
+    * Una segunda capa `Dropout` con tasa de 0.3. 
+    * Una capa `Dense` de salida con `num_classes` neuronas y activación `softmax`. 
+-   **Compilación**: Optimizador `adam`, función de pérdida `sparse_categorical_crossentropy` y métrica `accuracy`. 
+-   **Entrenamiento**: Se entrena el modelo por hasta 100 épocas con un tamaño de lote de 64, utilizando un `validation_split` del 15% y `EarlyStopping` (patience=5) para prevenir el sobreajuste. 
 
 ## Resultados y Análisis
 
@@ -47,20 +47,20 @@ El script imprime los resultados de la aplicación de cada criterio de PCA (núm
 
 ### Ejemplos de Resultados (MNIST):
 
--   [cite_start]**Características originales**: 784 
--   [cite_start]**Criterio de Kaiser**: 179 componentes 
--   [cite_start]**Varianza Acumulada (umbral 0.95)**: 332 componentes 
--   [cite_start]**Análisis Paralelo de Horn**: 150 componentes 
+-   **Características originales**: 784 
+-   **Criterio de Kaiser**: 179 componentes 
+-   **Varianza Acumulada (umbral 0.95)**: 332 componentes 
+-   **Análisis Paralelo de Horn**: 150 componentes 
 
 | Criterio                     | Componentes | Precisión Final (MNIST) | Tiempo de Entrenamiento (MNIST) |
 | :--------------------------- | :---------- | :---------------------- | :------------------------------ |
-| Todas las Características    | 784         | [cite_start]0.9668        | [cite_start]69.06 segundos        |
-| Mitad de Características     | 392         | [cite_start]0.9699        | [cite_start]42.45 segundos        |
-| Kaiser                       | 179         | [cite_start]0.9742        | [cite_start]59.22 segundos        |
-| Varianza Explicada (95%)     | 332         | [cite_start]0.9734        | [cite_start]70.56 segundos        |
-| Análisis Paralelo            | 150         | [cite_start]0.9761        | [cite_start]70.16 segundos        |
+| Todas las Características    | 784         | 0.9668        | 69.06 segundos        |
+| Mitad de Características     | 392         | 0.9699        | 42.45 segundos        |
+| Kaiser                       | 179         | 0.9742        | 59.22 segundos        |
+| Varianza Explicada (95%)     | 332         | 0.9734        | 70.56 segundos        |
+| Análisis Paralelo            | 150         | 0.9761        | 70.16 segundos        |
 
-[cite_start]Los resultados muestran cómo la reducción de dimensionalidad con PCA, utilizando criterios específicos, puede mantener o incluso mejorar la precisión de clasificación mientras reduce significativamente el número de características de entrada y, en algunos casos, el tiempo de entrenamiento. 
+Los resultados muestran cómo la reducción de dimensionalidad con PCA, utilizando criterios específicos, puede mantener o incluso mejorar la precisión de clasificación mientras reduce significativamente el número de características de entrada y, en algunos casos, el tiempo de entrenamiento. 
 
 ## Cómo Ejecutar el Script
 
@@ -82,6 +82,6 @@ Asegúrate de que tu entorno de Python tenga instaladas las siguientes librería
 -   `tensorflow`
 -   `keras`
 
-[cite_start](Todas estas librerías suelen venir preinstaladas en Google Colab). 
+(Todas estas librerías suelen venir preinstaladas en Google Colab). 
 
 ---
