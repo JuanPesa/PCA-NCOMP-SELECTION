@@ -49,7 +49,7 @@ El script imprime los resultados de la aplicación de cada criterio de PCA (núm
 
 -   **Características originales**: 784 
 -   **Criterio de Kaiser**: 179 componentes 
--   **Varianza Acumulada (umbral 0.95)**: 332 componentes 
+-   **Varianza Explicada (umbral 0.95)**: 332 componentes 
 -   **Análisis Paralelo de Horn**: 150 componentes 
 
 | Criterio                     | Componentes | Precisión Final (MNIST) | Tiempo de Entrenamiento (MNIST) |
